@@ -25,12 +25,16 @@
 #include <bmp280.h>
 #include "../config.h"
 
+#include <time.h>
+#include <stdlib.h>
+
+
 /* HTTP constants that aren't configurable in menuconfig */
 #define WEB_PATH "/measurement"
 
 static const char *TAG = "temp_collector";
 
-static char *BODY = "id="DEVICE_ID"&t=%0.2f&h=%0.2f";
+static char *BODY = "id="DEVICE_ID"&t=%0.2f&h=%0.2f&p=%0.2f";
 
 static char *REQUEST_POST = "POST "WEB_PATH" HTTP/1.0\r\n"
     "Host: "API_IP_PORT"\r\n"
@@ -59,17 +63,47 @@ static void http_get_task(void *pvParameters)
     bmp280_t dev;
     memset(&dev, 0, sizeof(bmp280_t));
 
-    ESP_ERROR_CHECK(bmp280_init_desc(&dev, BMP280_I2C_ADDRESS_0, 0, SDA_GPIO, SCL_GPIO));
-    ESP_ERROR_CHECK(bmp280_init(&dev, &params));
+   // ESP_ERROR_CHECK(bmp280_init_desc(&dev, BMP280_I2C_ADDRESS_0, 0, SDA_GPIO, SCL_GPIO));
+   // ESP_ERROR_CHECK(bmp280_init_desc(&dev, BMP280_I2C_ADDRESS_1, 0, SDA_GPIO, SCL_GPIO));
+   // ESP_ERROR_CHECK(bmp280_init(&dev, &params));
 
-    bool bme280p = dev.id == BME280_CHIP_ID;
-    ESP_LOGI(TAG, "BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
+   // bool bme280p = dev.id == BME280_CHIP_ID;
+   // ESP_LOGI(TAG, "BMP280: found %s\n", bme280p ? "BME280" : "BMP280");
 
     float pressure, temperature, humidity;
 
+<<<<<<< HEAD
+||||||| parent of 385e68a (pressure ok)
 
 
+=======
+    pressure = (rand() % 10) + 1000;
+    temperature = (rand() % 35) - 5;
+    humidity = (rand() % 100) + 1;
+
+>>>>>>> 385e68a (pressure ok)
     while(1) {
+<<<<<<< HEAD
+//         if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK) {
+//             ESP_LOGI(TAG, "Temperature/pressure reading failed\n");
+//         } else {
+//             ESP_LOGI(TAG, "Pressure: %.2f Pa, Temperature: %.2f C", pressure, temperature);
+// //            if (bme280p) {
+//                 ESP_LOGI(TAG,", Humidity: %.2f\n", humidity);
+// 		sprintf(body, BODY, temperature , humidity );
+//                 sprintf(send_buf, REQUEST_POST, (int)strlen(body),body );
+// //	    } else {
+// //                sprintf(send_buf, REQUEST_POST, temperature , 0);
+// //            }
+// 	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
+//         }    
+        pressure = (rand() % 2) + 1012;
+        temperature = (rand() % 4) + 18;
+        humidity = (rand() % 10) + 30;
+ 		sprintf(body, BODY, temperature , humidity  , pressure);
+        sprintf(send_buf, REQUEST_POST, (int)strlen(body),body );
+ 	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
+||||||| parent of 385e68a (pressure ok)
         if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK) {
             ESP_LOGI(TAG, "Temperature/pressure reading failed\n");
         } else {
@@ -83,6 +117,25 @@ static void http_get_task(void *pvParameters)
 //            }
 	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
         }    
+=======
+//         if (bmp280_read_float(&dev, &temperature, &pressure, &humidity) != ESP_OK) {
+//             ESP_LOGI(TAG, "Temperature/pressure reading failed\n");
+//         } else {
+//             ESP_LOGI(TAG, "Pressure: %.2f Pa, Temperature: %.2f C", pressure, temperature);
+// //            if (bme280p) {
+//                 ESP_LOGI(TAG,", Humidity: %.2f\n", humidity);
+// 		sprintf(body, BODY, temperature , humidity );
+//                 sprintf(send_buf, REQUEST_POST, (int)strlen(body),body );
+// //	    } else {
+// //                sprintf(send_buf, REQUEST_POST, temperature , 0);
+// //            }
+// 	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
+//         }    
+
+ 		sprintf(body, BODY, temperature , humidity  , pressure);
+        sprintf(send_buf, REQUEST_POST, (int)strlen(body),body );
+ 	    ESP_LOGI(TAG,"sending: \n%s\n",send_buf);
+>>>>>>> 385e68a (pressure ok)
 
         int err = getaddrinfo(API_IP, API_PORT, &hints, &res);
 
@@ -154,7 +207,7 @@ static void http_get_task(void *pvParameters)
             ESP_LOGI(TAG, "%d... ", countdown);
             vTaskDelay(1000 / portTICK_PERIOD_MS);
         }
-        ESP_LOGI(TAG, "Starting again!");
+        ESP_LOGI(TAG, "------------------------------NUEVO COMIENZO---------------------------------");
     }
 }
 
@@ -169,3 +222,4 @@ void app_main(void)
 
     xTaskCreate(&http_get_task, "http_get_task", 4096, NULL, 5, NULL);
 }
+Tocado para saltear sensor que no funciona

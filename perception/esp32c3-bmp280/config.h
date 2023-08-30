@@ -1,13 +1,13 @@
 #ifndef _config_
 
-#define API_IP        "192.168.0.100"
+#define API_IP        "192.168.1.23"
 #define API_PORT      "8080"
 #define API_IP_PORT   API_IP ":" API_PORT
 
-#define WIFI_SSID     ""
-#define WIFI_PASSWORD ""
+#define WIFI_SSID     "AriJoe"
+#define WIFI_PASSWORD "preguntaleaHugo"
 
-#define DEVICE_ID     ""
+#define DEVICE_ID     "13"
 
 
 // esp32-dht11 
@@ -22,9 +22,9 @@
 // #define ONE_WIRE_GPIO 2
 
 // esp32c3-bmp280 
-// #define SDA_GPIO      4
-// #define SCL_GPIO      5
-// #define USER_AGENT    "esp-idf/1.0 esp32c3"
+#define SDA_GPIO      4
+#define SCL_GPIO      5
+#define USER_AGENT    "esp-idf/1.0 esp32c3"
 
 // esp32-bmp280 
 // #define SDA_GPIO     21
